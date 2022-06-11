@@ -12,6 +12,12 @@ const getFiles = (_, callback) => {
 
 const getFilesByUser =  (_, callback) => {
     console.log(_.request);
+    if(!_.request.userId){
+        callback({
+            message: "Bad Request",
+            code: grpc.status.INVALID_ARGUMENT
+        })
+    }
     file.getFilesByUser(_.request.userId)
     .then((files) => callback(null, {files}))
     .catch((e) => {
@@ -22,8 +28,22 @@ const getFilesByUser =  (_, callback) => {
 
 const getFile = (_, callback) => {
     console.log(_.request);
+    if(!_.request.id){
+        callback({
+            message: "Bad Request",
+            code: grpc.status.INVALID_ARGUMENT
+        })
+    }
     file.getFile(_.request.id)
-    .then((file) => callback(null, file))
+    .then((file) =>{
+        if(!file){
+            callback({
+                message: "file not found",
+                code: grpc.status.NOT_FOUND
+            });
+        }
+         callback(null, file)
+        })
     .catch((e) => {
         console.log("errors", e)
         callback(e);
@@ -32,6 +52,12 @@ const getFile = (_, callback) => {
 
 const createFile = (_, callback) => {
     console.log(_.request);
+    if (!request.name) {
+        callback({
+            message: "Bad Request",
+            code: grpc.status.INVALID_ARGUMENT
+        })
+    }
     file.createFiles(_.request)
     .then((file) => callback(null, file))
     .then((e) => {
@@ -41,6 +67,12 @@ const createFile = (_, callback) => {
 }
 const updateFile = (_, callback) => {
     console.log(_.request);
+    if (!request.id) {
+        callback({
+            message: "Bad Request",
+            code: grpc.status.INVALID_ARGUMENT
+        })
+    }
     file.updateFile(_.request.id, _.request)
     .then((file) => callback(null, file))
     .then((e) => {
@@ -50,8 +82,14 @@ const updateFile = (_, callback) => {
 }
 const deleteFile = (_, callback) => {
     console.log(_.request);
+    if (!request.id) {
+        callback({
+            message: "Bad Request",
+            code: grpc.status.INVALID_ARGUMENT
+        })
+    }
     file.deleteFile(_.request.id)
-    .then((file) => callback(null, file))
+    .then(() => callback(null, {success: true}))
     .then((e) => {
         console.log("errors", e)
         callback(e);

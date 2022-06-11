@@ -14,7 +14,15 @@ const getAllUser = (_, callback) => {
 const getUser = (_, callback) => {
     console.log(_.request);
     User.getUser(_.request.id)
-    .then((user)=> callback(null, user))
+    .then((user)=> {
+        if(!user){
+            callback({
+                message: "user not found",
+                code: grpc.status.NOT_FOUND
+            });
+        }
+        callback(null, user)
+    })
     .catch((e) => {
         console.log("errors", e)
         callback(e);
@@ -23,6 +31,12 @@ const getUser = (_, callback) => {
 }
 const createUser = (_, callback) => {
     console.log("create user",_.request);
+    if (!_.request.email || !request.name ) {
+        callback({
+            message: "Bad Request",
+            code: grpc.status.INVALID_ARGUMENT
+        })
+    }
     User.createUser(_.request)
     .then((user) => callback(null, user))
     .catch((e) => {
