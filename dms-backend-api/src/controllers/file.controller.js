@@ -19,6 +19,23 @@ const getFilesByUser = (req, res) => {
 };
 
 /**
+ * Method of getting file by id for user 
+ */
+const getFileById = (req, res) => {
+	FileClient.getFile({id: req.params.id, userId: req.user}, (error, result) => {
+		if(error) {
+			res.status(getErrorCode(error.code));
+			res.json({
+				error: {
+					message: error.message
+				}
+			});
+		}
+		res.send(result);
+	});
+};
+
+/**
  *  Method for creating a new file by user
  */
 const createFile = (req, res) => {
@@ -90,5 +107,6 @@ module.exports = {
 	getFilesByUser,
 	createFile,
 	updateFile,
-	deleteFile
+	deleteFile,
+	getFileById
 };

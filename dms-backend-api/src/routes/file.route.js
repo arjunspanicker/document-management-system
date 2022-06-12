@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const { getFilesByUser, createFile, updateFile, deleteFile } = require('../controllers/file.controller');
+const { getFilesByUser, createFile, updateFile, deleteFile, getFileById } = require('../controllers/file.controller');
 
 router
 	.route('/')
@@ -10,6 +10,7 @@ router
 
 router
 	.route('/:id')
+	.get(auth, getFileById)
 	.put(auth, updateFile)
 	.delete(auth, deleteFile);
 
