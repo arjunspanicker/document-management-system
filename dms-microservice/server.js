@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const PROTO_PATH_USERS = "./protos/users.proto";
 const PROTO_PATH_FILES =  "./protos/files.proto";
 const PROTO_PATH_FOLDERS = "./protos/folders.proto"
-const { getAllUser,getUser, createUser } = require("./controllers/user.controller");
+const { getAllUser,getUser, createUser, userLogin } = require("./controllers/user.controller");
 const { 
   getFolder,
   getFolders,
@@ -68,7 +68,8 @@ server.addService(foldersProto.FolderService.service, {
 server.addService(userProto.UserService.service, {
     getAllUser: getAllUser,
     getUser:  getUser,
-    createUser: createUser
+    createUser: createUser,
+    userLogin: userLogin
 });
 server.bindAsync(
   "127.0.0.1:50051",

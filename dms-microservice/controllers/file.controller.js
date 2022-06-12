@@ -52,7 +52,7 @@ const getFile = (_, callback) => {
 
 const createFile = (_, callback) => {
     console.log(_.request);
-    if (!request.name) {
+    if (!_.request.name) {
         callback({
             message: "Bad Request",
             code: grpc.status.INVALID_ARGUMENT
@@ -60,37 +60,37 @@ const createFile = (_, callback) => {
     }
     file.createFiles(_.request)
     .then((file) => callback(null, file))
-    .then((e) => {
+    .catch((e) => {
         console.log("errors", e)
         callback(e);
     })
 }
 const updateFile = (_, callback) => {
     console.log(_.request);
-    if (!request.id) {
+    if (!_.request.id) {
         callback({
             message: "Bad Request",
             code: grpc.status.INVALID_ARGUMENT
         })
     }
-    file.updateFile(_.request.id, _.request)
+    file.updateFile(_.request)
     .then((file) => callback(null, file))
-    .then((e) => {
+    .catch((e) => {
         console.log("errors", e)
         callback(e);
     })
 }
 const deleteFile = (_, callback) => {
     console.log(_.request);
-    if (!request.id) {
+    if (!_.request.id) {
         callback({
             message: "Bad Request",
             code: grpc.status.INVALID_ARGUMENT
         })
     }
-    file.deleteFile(_.request.id)
+    file.deleteFile(_.request)
     .then(() => callback(null, {success: true}))
-    .then((e) => {
+    .catch((e) => {
         console.log("errors", e)
         callback(e);
     })

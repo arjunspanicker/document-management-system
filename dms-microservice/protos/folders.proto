@@ -13,12 +13,11 @@ message FileList {
 
 message FolderDetails {
     string name = 1;
-    string user = 3;
+    string user = 2;
 }
 message FolderResponse {
     string _id = 1;
     string name = 2;
-    string folder = 3;
 }
 message FolderRequest {
     optional string id = 1;
@@ -27,19 +26,20 @@ message FolderRequest {
 message updateFolderRequest {
     string id = 1;
     string name = 2;
+    string userId = 3;
 }
 message Empty {
 
 }
 message FolderList {
-    repeated FolderResponse folder = 1;
+    repeated FolderResponse folders = 1;
  }
  message SuccessResponse {
     bool success = 1 ;
 }
 service FolderService {
     rpc getFolders (Empty) returns (FolderList) {}
-    rpc getFoldersByUser(FolderRequest) returns (FolderResponse) {}
+    rpc getFoldersByUser(FolderRequest) returns (FolderList) {}
     rpc getFilesInFolder(FolderRequest) returns (FileList) {};
     rpc getFolder (FolderRequest) returns (FolderResponse) {}
     rpc createFolder (FolderDetails) returns (FolderResponse) {}

@@ -12,6 +12,10 @@ const getFilesByUser = async(userId) => {
 }
 
 const createFiles = async(data) => {
+    const existingfile = await File.findOne({name: data.name, user: data.user}).exec();
+    if(existingfile) {
+        throw new Error('A File already exist in same name for user');
+    }
     const file = new File(data);
     const new_file = await file.save();
     return new_file;
@@ -22,13 +26,17 @@ const getFile = async(id) => {
     return file;
 }
 
-const updateFile = async(id, data) => {
-    const file = await File.findOneAndUpdate({_id: id}, data, {new: true }).exec()
+const updateFile = async(data) => {
+    const existingFile = await File.findOne({name: data.name, user: data.user}).exec();
+    if(existingFile) {
+        throw new Error('A File already exist in same name for user');
+    }
+    const file = await File.findOneAndUpdate({_id: data.id}, data, {new: true }).exec()
     return file;
 }
 
-const deleteFile = async(id) => {
-    const file = await File.defindOneAndDelete({ id: key }).exec();
+const deleteFile = async(data) => {
+    const file = await File.findOneAndDelete({ _id: data.id, user: data.userId }).exec();
     return file;
 }
 

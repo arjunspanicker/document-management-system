@@ -1,5 +1,7 @@
 const grpc = require("@grpc/grpc-js");
 const User = require("../db/users");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 
 const getAllUser = (_, callback) => {
@@ -31,7 +33,7 @@ const getUser = (_, callback) => {
 }
 const createUser = (_, callback) => {
     console.log("create user",_.request);
-    if (!_.request.email || !request.name ) {
+    if (!_.request.email || !_.request.name ||  !_.request.password) {
         callback({
             message: "Bad Request",
             code: grpc.status.INVALID_ARGUMENT
@@ -46,7 +48,37 @@ const createUser = (_, callback) => {
 }
 const userLogin = (_, callback) => {
     console.log(_.request);
-    callback(null, _.request);
+    if (!_.request.email || !_.request.password) {
+        callback({
+            message: "Bad Request",
+            code: grpc.status.INVALID_ARGUMENT
+        })
+    }
+    User.getUserByEmail(_.request.email)
+    .then((user)=> {
+        if(!user){
+            callback({
+                message: "user not found",
+                code: grpc.status.NOT_FOUND
+            });
+        }
+        console.log("password", user.password);
+        bcrypt.compare(_.request.password, user.password)
+        .then((result) => {
+            if(!result) {
+                callback({
+                    message: "password does not match",
+                    code: grpc.status.INVALID_ARGUMENT
+                }); 
+            }
+            const token = jwt.sign({ user: user._id }, 'secret',{ expiresIn: '10d' });
+            callback(null, {token})
+        })
+    })
+    .catch((e) => {
+        console.log("errors", e)
+        callback(e);
+    });
 }
 module.exports = {
     getAllUser: getAllUser,

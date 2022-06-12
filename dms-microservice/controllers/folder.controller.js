@@ -19,7 +19,10 @@ const getFoldersByUser =  (_, callback) => {
         })
     }
     folder.getfoldersByUser(_.request.userId)
-    .then((folders) => callback(null, {folders}))
+    .then((folders) =>{
+        console.log('folders', folders);
+        callback(null, {folders})
+    })
     .catch((e) => {
         console.log("errors", e)
         callback(e);
@@ -66,7 +69,7 @@ const getFolder = (_, callback) => {
 
 const createFolder = (_, callback) => {
     console.log(_.request);
-    if (!request.name) {
+    if (!_.request.name) {
         callback({
             message: "Bad Request",
             code: grpc.status.INVALID_ARGUMENT
@@ -74,37 +77,37 @@ const createFolder = (_, callback) => {
     }
     folder.createFolder(_.request)
     .then((folder) => callback(null, folder))
-    .then((e) => {
+    .catch((e) => {
         console.log("errors", e)
         callback(e);
     })
 }
 const updateFolder = (_, callback) => {
     console.log(_.request);
-    if (!request.id) {
+    if (!_.request.id || !_.request.userId) {
         callback({
             message: "Bad Request",
             code: grpc.status.INVALID_ARGUMENT
         })
     }
-    folder.updateFolder(_.request.id, _.request)
+    folder.updateFolder(_.request)
     .then((folder) => callback(null, folder))
-    .then((e) => {
+    .catch((e) => {
         console.log("errors", e)
         callback(e);
     })
 }
 const deleteFolder = (_, callback) => {
     console.log(_.request);
-    if (!request.id) {
+    if (!_.request.id) {
         callback({
             message: "Bad Request",
             code: grpc.status.INVALID_ARGUMENT
         })
     }
-    folder.deleteFolder(_.request.id)
+    folder.deleteFolder(_.request)
     .then(() => callback(null, {success: true}))
-    .then((e) => {
+    .catch((e) => {
         console.log("errors", e)
         callback(e);
     })
