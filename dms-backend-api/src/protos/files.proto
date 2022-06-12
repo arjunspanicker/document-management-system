@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+message FileDetails {
+    string name = 1;
+    optional string folder = 2;
+    string user = 3;
+    optional string content = 4;
+}
+message FileResponse {
+    string _id = 1;
+    string name = 2;
+    string folder = 3;
+    string content = 4;
+}
+message FileRequest {
+   optional string id = 1;
+   optional string userId =2;
+}
+message UpdateFileRequest {
+    string id = 1;
+    optional string name = 2;
+    optional string folder = 3;
+    optional string content = 4;
+    string userId = 5;
+}
+message Empty {
+}
+
+message FileList {
+    repeated FileResponse files = 1;
+ }
+message SuccessResponse {
+    bool success = 1 ;
+}
+
+service FileService {
+    rpc getFile (FileRequest) returns (FileResponse) {}
+    rpc getFilesByUser(FileRequest) returns (FileList) {}
+    rpc getFiles (Empty) returns (FileList) {}
+    rpc createFile (FileDetails) returns (FileResponse) {}
+    rpc updateFile (UpdateFileRequest) returns (FileResponse) {}
+    rpc deleteFile (FileRequest) returns (SuccessResponse) {}
+}
