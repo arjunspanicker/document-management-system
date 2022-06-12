@@ -1,6 +1,9 @@
 const { FolderClient } = require('../utils/clients');
 const { getErrorCode } = require('../utils/errorCode');
 
+/**
+ * Method for getting folders by user
+ */
 const getFoldersByUser = (req, res) => {
 	FolderClient.getFoldersByUser({userId: req.user}, (error, result) => {
 		console.log(result);
@@ -17,6 +20,9 @@ const getFoldersByUser = (req, res) => {
 
 };
 
+/**
+ * Method for creating a new folder
+ */
 const createFolder = (req, res) => {
 	if(!req.body.name){
 		res.status(400);
@@ -39,6 +45,9 @@ const createFolder = (req, res) => {
 	});
 };
 
+/**
+ * Method for updating a new folder 
+ */
 const updateFolder = (req, res) => {
 	if(!req.body.name){
 		res.status(400);
@@ -61,6 +70,9 @@ const updateFolder = (req, res) => {
 	});
 };
 
+/**
+ * Method for deleting a new folder
+ */
 const deleteFolder = (req, res) => {
 	FolderClient.deleteFolder({id: req.params.id, userId: req.user}, (error , result ) => {
 		if(error) {

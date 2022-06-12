@@ -1,3 +1,8 @@
+/**
+ * Util function for identifying gRPC errors
+ * @param  code  error code from gRPC server
+ * @returns http status code 
+ */
 const getErrorCode =  (code) => {
 	let statusCode = 500;
 	switch(code) {

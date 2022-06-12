@@ -1,27 +1,25 @@
 const express = require('express'); 
 const router = require('./routes/index');
+const config = require('./config/config');
 
 const app = express(); 
+app.use(express.json()); // parse json request body
+app.use(express.urlencoded({ extended: true })); // parse urlencoded request body
 
-// parse json request body
-app.use(express.json());
 
-// parse urlencoded request body
-app.use(express.urlencoded({ extended: true }));
-
-const PORT = process.env.PORT || 5050; 
-
+//routes
 app.get('/', (req, res) => { 
 	res.send('<h2>It\'s Working!</h2>'); 
 }); 
-
 app.use('/api/v1', router);
+
+// to return 404 for invalid routes
 app.use((req, res, next) => {
 	const error = new Error('Url Not Found');
 	error.status = 404;
 	next(error);
 });
-
+// handle error and return 500 for unknown erros
 app.use((err, req, res, next) => {
 	res.status(err.status || 500);
 	res.json({
@@ -32,6 +30,6 @@ app.use((err, req, res, next) => {
 });
 
 
-app.listen(PORT, () => { 
-	console.log(`API is listening on port ${PORT}`); 
+app.listen(config.port, () => { 
+	console.log(`API is listening on port ${config.port}`); 
 });

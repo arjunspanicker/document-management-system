@@ -1,9 +1,11 @@
 const { FileClient } = require('../utils/clients');
 const { getErrorCode } = require('../utils/errorCode');
 
+/**
+ * Method for getting file by user
+ */
 const getFilesByUser = (req, res) => {
 	FileClient.getFilesByUser({userId: req.user}, (error, result) => {
-		console.log(result);
 		if(error) {
 			res.status(getErrorCode(error.code));
 			res.json({
@@ -16,6 +18,9 @@ const getFilesByUser = (req, res) => {
 	});
 };
 
+/**
+ *  Method for creating a new file by user
+ */
 const createFile = (req, res) => {
 	if(!req.body.name){
 		res.status(400);
@@ -39,6 +44,9 @@ const createFile = (req, res) => {
 	});
 };
 
+/**
+ * Method for updating a file by user
+ */
 const updateFile = (req, res) => {
 	if (!(req.body.name || req.body.content || req.body.folder)) {
 		res.status(400);
@@ -61,6 +69,9 @@ const updateFile = (req, res) => {
 	});
 };
 
+/**
+ * Method for deleting a file by user 
+ */
 const deleteFile = (req, res) => {
 	FileClient.deleteFile({id: req.params.id, userId: req.user}, (error, result) => {
 		if(error) {

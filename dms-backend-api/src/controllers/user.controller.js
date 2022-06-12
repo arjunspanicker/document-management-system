@@ -1,6 +1,9 @@
 const { UserClient } = require('../utils/clients');
 const { getErrorCode } = require('../utils/errorCode');
 
+/**
+ * Method for creating new user
+ */
 const getUsers = (req, res)=> {
 	UserClient.getAllUser({}, (error, result) => {
 		console.log(result);
@@ -16,6 +19,9 @@ const getUsers = (req, res)=> {
 	});
 };
 
+/**
+ * Method for getting a user
+ */
 const getUser = (req, res) => {
 	UserClient.getUser({id: req.params.id}, (error, result) => {
 		console.log(result);
@@ -30,6 +36,10 @@ const getUser = (req, res) => {
 		res.send(result);
 	});
 };
+
+/**
+ * Method for creating a user
+ */
 
 const createUser = (req, res) => {
 	if(!req.body.email || !req.body.password || !req.body.name){
@@ -53,6 +63,9 @@ const createUser = (req, res) => {
 	});
 };
 
+/**
+ * Method for user login
+ */
 const userLogin = (req, res) => {
 	if(!req.body.email || !req.body.password){
 		res.status(400);

@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
-
+/**
+ *  Middleware for enforcing authentication 
+ */
 const verifyToken = (req, res, next) => {
 	const bearerHeader = req.headers['authorization'];
 	if (!bearerHeader) {
