@@ -88,9 +88,29 @@ const userLogin = (req, res) => {
 	});
 };
 
+/**
+ * Method to get Files and folders at root level
+ */
+
+const getRootFilesAndFolder = (req, res) => {
+	UserClient.getRootFilesAndFolder({id: req.user}, (error, result) => {
+		if(error) {
+			res.status(getErrorCode(error.code));
+			res.json({
+				error: {
+					message: error.message
+				}
+			});
+		}
+		res.send(result);
+	});
+};
+
+
 module.exports =  {
 	getUsers,
 	getUser,
 	createUser,
-	userLogin
+	userLogin,
+	getRootFilesAndFolder
 };

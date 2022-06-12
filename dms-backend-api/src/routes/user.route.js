@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const { getUsers, getUser, createUser, userLogin } = require('../controllers/user.controller');
+const { getUsers, getUser, createUser, userLogin, getRootFilesAndFolder } = require('../controllers/user.controller');
 
 router
 	.route('/')
@@ -15,5 +15,8 @@ router
 router
 	.route('/login')
 	.post(userLogin);
+router
+	.route('/resources/all')
+	.get(auth, getRootFilesAndFolder);
 
 module.exports = router;

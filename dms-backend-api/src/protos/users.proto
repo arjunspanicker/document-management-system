@@ -5,7 +5,25 @@ service UserService {
     rpc getUser (UserRequest) returns (UserResponse) {}
     rpc createUser (UserDetails) returns (UserResponse) {}
     rpc userLogin (LoginRequest) returns (LoginResponse) {}
+    rpc getRootFilesAndFolder(UserRequest) returns(FilesAndFolderResposne) {}
 }
+
+message FileResponse {
+    string _id = 1;
+    string name = 2;
+    string folder = 3;
+    string content = 4;
+}
+message FolderResponse {
+    string _id = 1;
+    string name = 2;
+}
+
+message FilesAndFolderResposne {
+    repeated FileResponse files = 1;
+    repeated FolderResponse folders= 2;
+ }
+
 message UserDetails {
     string name = 1;
     string email = 2;
