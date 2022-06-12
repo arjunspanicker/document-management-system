@@ -49,8 +49,12 @@ const createFolder = async(data) => {
  * @returns folder
  */
 const getFolder = async(id) => {
-    const Folder = await Folder.findOne({_id: id}).select(["name", "user"]);
-    return Folder;
+    const folder = await Folder.findOne({_id: id}).select(["name", "user"]).exec();
+    if(!folder){
+        throw new Error('A Folder does not exist in same name for user'); 
+    }
+    const files =  await File.find({folder: folder}).exec();
+    return {_id: folder._id, name: folder.name, files: files};
 }
 
 /**

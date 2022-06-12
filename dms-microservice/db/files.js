@@ -40,6 +40,9 @@ const createFiles = async(data) => {
  */
 const getFile = async(id) => {
     const file = await File.findOne({_id: id}).select(["name", "user","folder","content"]).populate('folder');
+    if(!file){
+        throw new Error('A File does not exist in same name for user');
+    }
     return {
         _id: file._id,
         name: file.name,
