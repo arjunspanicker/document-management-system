@@ -1,0 +1,21 @@
+
+version: "3.9"
+services:
+  dms-microservice:
+    container_name: grpc-server
+    build:
+      context: ./dms-microservice
+    environment:
+      GRPC_SERVER: 0.0.0.0:50051
+    ports:
+      - '50051:50051'
+
+  dms-backend-api:
+    build:
+      context: ./dms-backend-api
+    environment:
+      GRPC_SERVER: dns:///grpc-server:50051
+    depends_on:
+      - dms-microservice
+    ports:
+      - '5050:5050'
