@@ -84,9 +84,28 @@ const userLogin = (_, callback) => {
         callback(e);
     });
 }
+/**
+ * Method for getting files and folders in root level
+ */
+const getRootFilesAndFolder = (_, callback) => {
+    if (!_.request.id) {
+        callback({
+            message: "Bad Request",
+            code: grpc.status.INVALID_ARGUMENT
+        })
+    }
+    User.getRootFilesAndFolder(_.request.id)
+    .then((result) => callback(null, result))
+    .catch((e) => {
+        console.log("errors", e)
+        callback(e);
+    })
+}
+
 module.exports = {
     getAllUser: getAllUser,
     getUser: getUser,
     createUser: createUser,
-    userLogin: userLogin
+    userLogin: userLogin,
+    getRootFilesAndFolder
 }

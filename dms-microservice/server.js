@@ -5,7 +5,7 @@ const config = require('./config/config');
 const PROTO_PATH_USERS = "./protos/users.proto";
 const PROTO_PATH_FILES =  "./protos/files.proto";
 const PROTO_PATH_FOLDERS = "./protos/folders.proto";
-const { getAllUser,getUser, createUser, userLogin } = require("./controllers/user.controller");
+const { getAllUser,getUser, createUser, userLogin , getRootFilesAndFolder} = require("./controllers/user.controller");
 const { 
   getFolder,
   getFolders,
@@ -70,7 +70,8 @@ server.addService(userProto.UserService.service, {
     getAllUser: getAllUser,
     getUser:  getUser,
     createUser: createUser,
-    userLogin: userLogin
+    userLogin: userLogin,
+    getRootFilesAndFolder: getRootFilesAndFolder
 });
 server.bindAsync(
   config.grpcServer,

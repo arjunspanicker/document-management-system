@@ -1,4 +1,6 @@
 const User = require('../models/user.model');
+const Folder = require("../models/folder.model");
+const File = require("../models/file.model");
 const bcrypt = require('bcryptjs');
 
 /**
@@ -40,10 +42,24 @@ const getUserByEmail = async(email) => {
     const user = await User.findOne({email}).select(["email","password"]).exec();
     return user;
 }
+/**
+ * Method to fetch folder and files in root level
+ * @param {*} id user id
+ * @returns files and folders
+ */
+const getRootFilesAndFolder = async(id) => {
+    const folders = await Folder.find({user: id}).exec();
+    const files = await File.find({user: id, folder: null}).exec();
+    return {
+        folders,
+        files
+    }
+};
 
 module.exports = {
     getAllUsers,
     createUser,
     getUser,
-    getUserByEmail
+    getUserByEmail,
+    getRootFilesAndFolder
 }
