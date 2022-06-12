@@ -12,6 +12,14 @@ message FileResponse {
     string folder = 3;
     string content = 4;
 }
+
+message getFileResponse {
+    string _id = 1;
+    string name = 2;
+    string folderName = 3;
+    string folderId = 4;
+    string content = 5;
+}
 message FileRequest {
    optional string id = 1;
    optional string userId =2;
@@ -34,7 +42,7 @@ message SuccessResponse {
 }
 
 service FileService {
-    rpc getFile (FileRequest) returns (FileResponse) {}
+    rpc getFile (FileRequest) returns (getFileResponse) {}
     rpc getFilesByUser(FileRequest) returns (FileList) {}
     rpc getFiles (Empty) returns (FileList) {}
     rpc createFile (FileDetails) returns (FileResponse) {}

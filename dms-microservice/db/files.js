@@ -39,8 +39,14 @@ const createFiles = async(data) => {
  * @returns file
  */
 const getFile = async(id) => {
-    const file = await File.findOne({_id: id}).select(["name", "user","folder","content"]);
-    return file;
+    const file = await File.findOne({_id: id}).select(["name", "user","folder","content"]).populate('folder');
+    return {
+        _id: file._id,
+        name: file.name,
+        content: file.content,
+        folderId: file?.folder?._id ? file.folder._id: '',
+        folderName: file?.folder?.name ? file.folder.name: '',
+    };
 }
 
 /**
