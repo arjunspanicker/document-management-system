@@ -72,8 +72,10 @@ const updateFolder = async(data) => {
  * @returns {success: boolean}
  */
 const deleteFolder = async(data) => {
-    console.log("data", data)
     const folder = await Folder.findOneAndDelete({ _id: data.id, user: data.userId }).exec();
+    if(!folder){
+        throw new Error('No folder exist with the id for this user');
+    }
     return folder;
 }
 

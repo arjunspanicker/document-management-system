@@ -64,6 +64,9 @@ const updateFile = async(data) => {
  */
 const deleteFile = async(data) => {
     const file = await File.findOneAndDelete({ _id: data.id, user: data.userId }).exec();
+    if(!file){
+        throw new Error('No file exist with the id for this user');
+    }
     return file;
 }
 
