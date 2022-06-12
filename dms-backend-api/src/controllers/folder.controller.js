@@ -46,6 +46,24 @@ const createFolder = (req, res) => {
 };
 
 /**
+ * Method for getting files in a folder
+ */
+const getFilesInFolder = (req, res) => {
+	FolderClient.getFilesInFolder({id: req.params.id, userId: req.user}, (error, result) => {
+		if(error) {
+			res.status(getErrorCode(error.code));
+			res.json({
+				error: {
+					message: error.message
+				}
+			});
+		}
+		res.send(result.files);
+	});
+};
+
+
+/**
  * Method for updating a new folder 
  */
 const updateFolder = (req, res) => {
@@ -91,5 +109,6 @@ module.exports = {
 	getFoldersByUser,
 	createFolder,
 	updateFolder,
-	deleteFolder
+	deleteFolder,
+	getFilesInFolder
 };

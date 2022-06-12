@@ -8,7 +8,7 @@ message FileResponse {
 }
 
 message FileList {
-    repeated FileResponse file = 1;
+    repeated FileResponse files = 1;
  }
 
 message FolderDetails {
