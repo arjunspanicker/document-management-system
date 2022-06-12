@@ -39,7 +39,7 @@ const getFilesInFolder = (_, callback) => {
             code: grpc.status.INVALID_ARGUMENT
         })
     }
-    folder.getfoldersByUser(_.request.id)
+    folder.getFilesInFolder(_.request.id)
     .then((files) => callback(null, {files}))
     .catch((e) => {
         console.log("errors", e)
