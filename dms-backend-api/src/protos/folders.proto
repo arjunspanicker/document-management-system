@@ -19,6 +19,12 @@ message FolderResponse {
     string _id = 1;
     string name = 2;
 }
+message FolderByIdResponse {
+    string _id = 1;
+    string name = 2;
+    repeated FileResponse files = 3;
+}
+
 message FolderRequest {
     optional string id = 1;
     optional string userId = 2;
@@ -41,7 +47,7 @@ service FolderService {
     rpc getFolders (Empty) returns (FolderList) {}
     rpc getFoldersByUser(FolderRequest) returns (FolderList) {}
     rpc getFilesInFolder(FolderRequest) returns (FileList) {};
-    rpc getFolder (FolderRequest) returns (FolderResponse) {}
+    rpc getFolder (FolderRequest) returns (FolderByIdResponse) {}
     rpc createFolder (FolderDetails) returns (FolderResponse) {}
     rpc updateFolder (updateFolderRequest) returns (FolderResponse) {}
     rpc deleteFolder (FolderRequest) returns (SuccessResponse) {}

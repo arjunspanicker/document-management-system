@@ -21,6 +21,24 @@ const getFoldersByUser = (req, res) => {
 };
 
 /**
+ * Method of getting file by id for user 
+ */
+const getFolderById = (req, res) => {
+	FolderClient.getFolder({id: req.params.id, userId: req.user}, (error, result) => {
+		if(error) {
+			res.status(getErrorCode(error.code));
+			res.json({
+				error: {
+					message: error.message
+				}
+			});
+		}
+		res.send(result);
+	});
+};
+
+
+/**
  * Method for creating a new folder
  */
 const createFolder = (req, res) => {
@@ -110,5 +128,6 @@ module.exports = {
 	createFolder,
 	updateFolder,
 	deleteFolder,
-	getFilesInFolder
+	getFilesInFolder,
+	getFolderById
 };
