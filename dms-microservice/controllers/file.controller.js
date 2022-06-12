@@ -1,7 +1,9 @@
 const file = require("../db/files");
 
+/**
+ * Method to get files
+ */
 const getFiles = (_, callback) => {
-    console.log(_.request);
     file.getFiles()
     .then((files) => callback(null, {files}))
     .catch((e) => {
@@ -10,8 +12,10 @@ const getFiles = (_, callback) => {
     })
 }
 
+/**
+ * Method to get files by user
+ */
 const getFilesByUser =  (_, callback) => {
-    console.log(_.request);
     if(!_.request.userId){
         callback({
             message: "Bad Request",
@@ -26,8 +30,10 @@ const getFilesByUser =  (_, callback) => {
     })
 }
 
+/**
+ * Method to get file details
+ */
 const getFile = (_, callback) => {
-    console.log(_.request);
     if(!_.request.id){
         callback({
             message: "Bad Request",
@@ -50,8 +56,10 @@ const getFile = (_, callback) => {
     })
 }
 
+/**
+ * Method to create file
+ */
 const createFile = (_, callback) => {
-    console.log(_.request);
     if (!_.request.name) {
         callback({
             message: "Bad Request",
@@ -65,8 +73,10 @@ const createFile = (_, callback) => {
         callback(e);
     })
 }
+/**
+ * Method to update file
+ */
 const updateFile = (_, callback) => {
-    console.log(_.request);
     if (!_.request.id) {
         callback({
             message: "Bad Request",
@@ -80,8 +90,10 @@ const updateFile = (_, callback) => {
         callback(e);
     })
 }
+/**
+ * Method to delete file
+ */
 const deleteFile = (_, callback) => {
-    console.log(_.request);
     if (!_.request.id) {
         callback({
             message: "Bad Request",

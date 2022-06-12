@@ -3,18 +3,19 @@ const User = require("../db/users");
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-
+/**
+ * Method to fetch all users
+ */
 const getAllUser = (_, callback) => {
-    User.getAllUsers().then((users) => {
-        console.log("users", users)
-        callback(null, {users});
-    }).catch((e) => {
+    User.getAllUsers().then((users) => callback(null, {users})).catch((e) => {
         console.log("errors", e)
         callback(e);
     })
 }
+/**
+ * Method to fetch user details
+ */
 const getUser = (_, callback) => {
-    console.log(_.request);
     User.getUser(_.request.id)
     .then((user)=> {
         if(!user){
@@ -31,8 +32,10 @@ const getUser = (_, callback) => {
     });
 
 }
+/**
+ * Method to create user
+ */
 const createUser = (_, callback) => {
-    console.log("create user",_.request);
     if (!_.request.email || !_.request.name ||  !_.request.password) {
         callback({
             message: "Bad Request",
@@ -46,8 +49,10 @@ const createUser = (_, callback) => {
         callback(e);
     })
 }
+/**
+ * Method for user login
+ */
 const userLogin = (_, callback) => {
-    console.log(_.request);
     if (!_.request.email || !_.request.password) {
         callback({
             message: "Bad Request",
@@ -62,7 +67,6 @@ const userLogin = (_, callback) => {
                 code: grpc.status.NOT_FOUND
             });
         }
-        console.log("password", user.password);
         bcrypt.compare(_.request.password, user.password)
         .then((result) => {
             if(!result) {

@@ -1,9 +1,10 @@
 const grpc = require("@grpc/grpc-js");
 const protoLoader = require("@grpc/proto-loader");
 const mongoose = require('mongoose');
+const config = require('./config/config');
 const PROTO_PATH_USERS = "./protos/users.proto";
 const PROTO_PATH_FILES =  "./protos/files.proto";
-const PROTO_PATH_FOLDERS = "./protos/folders.proto"
+const PROTO_PATH_FOLDERS = "./protos/folders.proto";
 const { getAllUser,getUser, createUser, userLogin } = require("./controllers/user.controller");
 const { 
   getFolder,
@@ -31,7 +32,7 @@ const options = {
   defaults: true,
   oneofs: true,
 };
-mongoose.connect('mongodb+srv://arjun:RKOISCfC8hR55nRS@cluster0.zihgy.mongodb.net/dms-dev?retryWrites=true&w=majority', {
+mongoose.connect(config.mongoUrl, {
     useNewUrlParser: true
 });
 mongoose.Promise = global.Promise;
@@ -72,10 +73,10 @@ server.addService(userProto.UserService.service, {
     userLogin: userLogin
 });
 server.bindAsync(
-  "127.0.0.1:50051",
+  config.grpcServer,
   grpc.ServerCredentials.createInsecure(),
   (error, port) => {
-    console.log("Server running at http://127.0.0.1:50051");
+    console.log(`Server running at http://${config.grpcServer}`);
     server.start();
   }
 );

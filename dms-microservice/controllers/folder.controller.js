@@ -1,7 +1,9 @@
 const folder = require("../db/folders");
 
+/**
+ * Method to get folders
+ */
 const getFolders = (_, callback) => {
-    console.log(_.request);
     folder.getFolders()
     .then((folders) => callback(null, {folders}))
     .catch((e) => {
@@ -9,9 +11,10 @@ const getFolders = (_, callback) => {
         callback(e);
     })
 }
-
+/**
+ * Method to get folders by user
+ */
 const getFoldersByUser =  (_, callback) => {
-    console.log(_.request);
     if(!_.request.userId){
         callback({
             message: "Bad Request",
@@ -19,17 +22,17 @@ const getFoldersByUser =  (_, callback) => {
         })
     }
     folder.getfoldersByUser(_.request.userId)
-    .then((folders) =>{
-        console.log('folders', folders);
-        callback(null, {folders})
-    })
+    .then((folders) =>callback(null, {folders}))
     .catch((e) => {
         console.log("errors", e)
         callback(e);
     })
 }
+
+/**
+ * Method to get files in folder
+ */
 const getFilesInFolder = (_, callback) => {
-    console.log(_.request);
     if(!_.request.id){
         callback({
             message: "Bad Request",
@@ -43,8 +46,11 @@ const getFilesInFolder = (_, callback) => {
         callback(e);
     })
 }
+
+/**
+ * Method to get folder details
+ */
 const getFolder = (_, callback) => {
-    console.log(_.request);
     if(!_.request.id){
         callback({
             message: "Bad Request",
@@ -67,8 +73,10 @@ const getFolder = (_, callback) => {
     })
 }
 
+/**
+ * Method to create folder
+ */
 const createFolder = (_, callback) => {
-    console.log(_.request);
     if (!_.request.name) {
         callback({
             message: "Bad Request",
@@ -82,8 +90,11 @@ const createFolder = (_, callback) => {
         callback(e);
     })
 }
+
+/**
+ * Method to update folder
+ */
 const updateFolder = (_, callback) => {
-    console.log(_.request);
     if (!_.request.id || !_.request.userId) {
         callback({
             message: "Bad Request",
@@ -97,8 +108,10 @@ const updateFolder = (_, callback) => {
         callback(e);
     })
 }
+/**
+ * Method to delete folder
+ */
 const deleteFolder = (_, callback) => {
-    console.log(_.request);
     if (!_.request.id) {
         callback({
             message: "Bad Request",
